@@ -1,0 +1,102 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "5001:5001"
+    command: bash -c "npm run build && node dist/index.js"
+    env_file:
+      - .env.docker
+    volumes:
+      - /app/node_modules
+      - puppeteer_cache:/app/.cache
+      - puppeteer_data:/app/.local/share/puppeteer
+    tmpfs:
+      - /tmp
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+    security_opt:
+      - seccomp=unconfined
+    cap_add:
+      - SYS_ADMIN
+    depends_on:
+      - redis
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  puppeteer_cache:
+  puppeteer_data:
+# version: "3.8"
+
+# services:
+#   app:
+#     build:
+#       context: .
+#     ports:
+#       - "6001:6001"
+#     command: bash -c "npm run build && node dist/index.js"
+#     env_file:
+#       - .env.docker
+#     volumes:
+#       - /app/node_modules
+#       - puppeteer_cache:/app/.cache
+#       - puppeteer_data:/app/.local/share/puppeteer
+#     tmpfs:
+#       - /tmp
+#     deploy:
+#       resources:
+#         limits:
+#           memory: 2G
+#         reservations:
+#           memory: 1G
+#     security_opt:
+#       - seccomp=unconfined
+#     cap_add:
+#       - SYS_ADMIN
+#     depends_on:
+#       - minio
+#       - redis
+#     extra_hosts:
+#       - "host.docker.internal:host-gateway"
+#     restart: unless-stopped
+
+#   minio:
+#     image: minio/minio
+#     container_name: minio
+#     ports:
+#       - "9000:9000"
+#       - "9001:9001"
+#     environment:
+#       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+#       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+#     command: server /data --console-address ":9001"
+#     volumes:
+#       - minio_data:/data
+#     restart: unless-stopped
+
+#   redis:
+#     image: redis
+#     container_name: redis
+#     ports:
+#       - "6379:6379"
+#     restart: unless-stopped
+
+# volumes:
+#   minio_data:
+#   puppeteer_cache:
+#   puppeteer_data:

@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payroll Slip</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+
+      body {
+        background: #f5f5f5;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border: 1px dashed #ccc;
+        border-radius: 12px;
+        margin-bottom: 20px;
+      }
+
+      .company-info {
+        flex: 1;
+      }
+
+      .company-info h1 {
+        font-size: 16px;
+        color: #666;
+        margin-top: 10px;
+        margin-left: 24px;
+      }
+      .company-info img {
+        width: 180px;
+        /* height: 180px; */
+        object-fit: contain;
+      }
+
+      .payroll-month {
+        text-align: center;
+        flex: 1;
+      }
+
+      .payroll-month h2 {
+        font-size: 18px;
+        color: #111;
+      }
+
+      .payroll-month p {
+        color: #2563eb;
+        font-weight: 500;
+      }
+
+      .contact-info {
+        flex: 1;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+      }
+
+      .contact-info div {
+        display: flex;
+        align-items: center;
+        width: fit-content;
+      }
+
+      .contact-info span {
+        min-width: 180px;
+        text-align: left;
+        margin-left: 8px;
+      }
+
+      .icon {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #1e40af;
+        border-radius: 50%;
+        padding: 4px;
+        flex-shrink: 0;
+      }
+      .employee-details {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+
+      .employee-details h1 {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .details-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        font-size: 14px;
+      }
+
+      .details-row .label {
+        font-weight: 600;
+      }
+
+      .tables-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+
+      th {
+        background: #f9fafb;
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-weight: 600;
+      }
+
+      td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+        font-size: 14px;
+      }
+
+      .amount {
+        text-align: right;
+      }
+
+      .total-row {
+        background: #f9fafb;
+        font-weight: 600;
+      }
+
+      .net-payable {
+        background: #f9fafb;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+
+      .net-payable-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .net-amount {
+        color: #2563eb;
+      }
+
+      .amount-words {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+
+      .amount-words .words {
+        color: #2563eb;
+        font-weight: 500;
+      }
+
+      .notes {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+
+      .notes h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      .notes p {
+        font-size: 14px;
+      }
+
+      .signature {
+        margin-top: 48px;
+      }
+      .signature img {
+        width: 150px;
+        object-fit: contain;
+        margin-left: 30px;
+        margin-bottom: -40px;
+      }
+
+      .signature-line {
+        width: 180px;
+        height: 1px;
+        background: #111;
+        margin: 8px 0;
+        margin-left: 36px;
+      }
+
+      .signature-name {
+        font-size: 14px;
+        font-weight: 600;
+        margin-left: 36px;
+      }
+
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+        }
+
+        .container {
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="company-info">
+          <img src="https://res.cloudinary.com/dpnhdq9eg/image/upload/v1738649505/logo_lvrzl1.png" alt="Softified" />
+          <h1>
+            Softified Development & <br />
+            Consulting Group Pvt. Ltd.
+          </h1>
+        </div>
+        <div class="payroll-month">
+          <h2>Payslip for the month</h2>
+          <p>February 2025</p>
+        </div>
+        <div class="contact-info">
+          <div>
+            <img
+              src="https://res.cloudinary.com/dpnhdq9eg/image/upload/v1740297651/ic--baseline-phone_my7f1r.png"
+              alt="Phone"
+              class="icon"
+            />
+            <span>(+977) 9818984104</span>
+          </div>
+          <div>
+            <img
+              src="https://res.cloudinary.com/dpnhdq9eg/image/upload/v1740297650/ic--baseline-email_jahkcp.png"
+              alt="Email"
+              class="icon"
+            />
+            <span>contact@softified.com.np</span>
+          </div>
+          <div>
+            <img
+              src="https://res.cloudinary.com/dpnhdq9eg/image/upload/v1740297649/uil--globe_bpqh4h.png"
+              alt="Website"
+              class="icon"
+            />
+            <span>www.softified.com.np</span>
+          </div>
+          <div>
+            <img
+              src="https://res.cloudinary.com/dpnhdq9eg/image/upload/v1740297650/mdi--location_rh9oyv.png"
+              alt="Location"
+              class="icon"
+            />
+            <span>Tokha 5, Basundhara, Kathmandu</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="employee-details">
+        <h1>Employee Pay Summary</h1>
+        <div class="details-grid">
+          <div class="details-row">
+            <span class="label">Employee Name:</span>
+            <span>John Doe</span>
+          </div>
+          <div class="details-row">
+            <span class="label">Employee ID:</span>
+            <span>EMP001</span>
+          </div>
+          <div class="details-row">
+            <span class="label">Pay Period:</span>
+            <span>02/01/2025 - 02/28/2025</span>
+          </div>
+          <div class="details-row">
+            <span class="label">Paid Days:</span>
+            <span>22</span>
+          </div>
+          <div class="details-row">
+            <span class="label">Loss of Pay Days:</span>
+            <span>0</span>
+          </div>
+          <div class="details-row">
+            <span class="label">Pay Date:</span>
+            <span>02/28/2025</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tables-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Earnings</th>
+              <th class="amount">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Basic Salary</td>
+              <td class="amount">Rs. 50,000</td>
+            </tr>
+            <tr>
+              <td>House Rent Allowance</td>
+              <td class="amount">Rs. 10,000</td>
+            </tr>
+            <tr>
+              <td>Transport Allowance</td>
+              <td class="amount">Rs. 5,000</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr class="total-row">
+              <td>Total Earnings</td>
+              <td class="amount">Rs. 65,000</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Deductions</th>
+              <th class="amount">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tax</td>
+              <td class="amount">Rs. 5,000</td>
+            </tr>
+            <tr>
+              <td>Provident Fund</td>
+              <td class="amount">Rs. 3,000</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr class="total-row">
+              <td>Total Deductions</td>
+              <td class="amount">Rs. 8,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="net-payable">
+        <div class="net-payable-row">
+          <span>Net Payable</span>
+          <span class="net-amount">Rs. 57,000</span>
+        </div>
+        <div class="amount-words">
+          <span>Amount in words:</span>
+          <span class="words">Fifty Seven Thousand Rupees Only</span>
+        </div>
+      </div>
+
+      <div class="notes">
+        <h3>Notes:</h3>
+        <p>This is a computer generated payslip and does not require a physical signature.</p>
+      </div>
+
+      <div class="signature">
+        <img
+          src="https://res.cloudinary.com/dpnhdq9eg/image/upload/v1740297337/signature_ihdroh.png"
+          alt="Signature"
+          style="transform: rotate(6deg)"
+        />
+        <div class="signature-line"></div>
+        <p class="signature-name">Signature</p>
+        <p class="signature-name">Aayush Raj Joshi</p>
+      </div>
+    </div>
+  </body>
+</html>

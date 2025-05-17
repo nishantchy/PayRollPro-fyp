@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Google Sign-In Test</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .container {
+        margin-top: 20px;
+      }
+      .token-section {
+        margin-top: 20px;
+      }
+      button {
+        padding: 10px 15px;
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      #response-display {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+      }
+      pre {
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Google Sign-In Test</h1>
+
+    <div
+      id="g_id_onload"
+      data-client_id="205373363397-p6jd37eb2466d264621lhdjbvuakugq4.apps.googleusercontent.com"
+      data-callback="handleCredentialResponse"
+      data-auto_prompt="false"
+    ></div>
+
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <div class="token-section">
+      <h3>ID Token:</h3>
+      <pre id="token-display">Not signed in yet</pre>
+    </div>
+
+    <div id="response-display">
+      <h3>API Response:</h3>
+      <pre id="api-response">No response yet</pre>
+    </div>
+
+    <script>
+      let idToken = null;
+
+      function handleCredentialResponse(response) {
+        idToken = response.credential;
+        document.getElementById("token-display").textContent = idToken;
+        console.log("Google token received:", idToken);
+
+        // Enable buttons once we have a token
+        document.getElementById("register-btn").disabled = false;
+        document.getElementById("login-btn").disabled = false;
+      }
+
+      document
+        .getElementById("register-btn")
+        .addEventListener("click", async () => {
+          if (!idToken) {
+            alert("Please sign in with Google first!");
+            return;
+          }
+
+          try {
+            const response = await fetch("/api/business/google-register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ token: idToken }),
+            });
+
+            const data = await response.json();
+            document.getElementById("api-response").textContent =
+              JSON.stringify(data, null, 2);
+            console.log("API response:", data);
+          } catch (error) {
+            document.getElementById("api-response").textContent =
+              "Error: " + error.message;
+            console.error("API error:", error);
+          }
+        });
+
+      document
+        .getElementById("login-btn")
+        .addEventListener("click", async () => {
+          if (!idToken) {
+            alert("Please sign in with Google first!");
+            return;
+          }
+
+          try {
+            const response = await fetch("/api/business/google-login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ token: idToken }),
+            });
+
+            const data = await response.json();
+            document.getElementById("api-response").textContent =
+              JSON.stringify(data, null, 2);
+            console.log("API response:", data);
+          } catch (error) {
+            document.getElementById("api-response").textContent =
+              "Error: " + error.message;
+            console.error("API error:", error);
+          }
+        });
+    </script>
+  </body>
+</html>

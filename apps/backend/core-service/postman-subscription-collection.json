@@ -1,0 +1,257 @@
+{
+  "info": {
+    "name": "PayrollPro Subscription API",
+    "description": "API endpoints for subscription management in PayrollPro",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\",\n    \"phone\": \"+9779800000000\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customer/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customer", "register"]
+            },
+            "description": "Register a new customer with the Free plan"
+          }
+        },
+        {
+          "name": "Login Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customer/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customer", "login"]
+            },
+            "description": "Login and get subscription info"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscription",
+      "item": [
+        {
+          "name": "Get All Plans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/subscription/plans",
+              "host": ["{{base_url}}"],
+              "path": ["api", "subscription", "plans"]
+            },
+            "description": "Get all available subscription plans"
+          }
+        },
+        {
+          "name": "Get Current Subscription",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/subscription",
+              "host": ["{{base_url}}"],
+              "path": ["api", "subscription"]
+            },
+            "description": "Get customer's current subscription"
+          }
+        },
+        {
+          "name": "Upgrade to Basic Plan (Stripe)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"plan_id\": \"basic\",\n    \"payment_method\": \"stripe\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/subscription/upgrade",
+              "host": ["{{base_url}}"],
+              "path": ["api", "subscription", "upgrade"]
+            },
+            "description": "Upgrade subscription to Basic Plan using Stripe"
+          }
+        },
+        {
+          "name": "Upgrade to Pro Plan (PayPal)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"plan_id\": \"pro\",\n    \"payment_method\": \"paypal\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/subscription/upgrade",
+              "host": ["{{base_url}}"],
+              "path": ["api", "subscription", "upgrade"]
+            },
+            "description": "Upgrade subscription to Pro Plan using PayPal"
+          }
+        },
+        {
+          "name": "Downgrade to Free Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"plan_id\": \"free\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/subscription/upgrade",
+              "host": ["{{base_url}}"],
+              "path": ["api", "subscription", "upgrade"]
+            },
+            "description": "Downgrade to Free Plan"
+          }
+        },
+        {
+          "name": "Cancel Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"reason\": \"Testing cancellation\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/subscription/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["api", "subscription", "cancel"]
+            },
+            "description": "Cancel the current subscription"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organization",
+      "item": [
+        {
+          "name": "Create Organization (Checks Limit)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Test Organization\",\n    \"industry\": \"Technology\",\n    \"description\": \"Created for testing subscription limits\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/organization",
+              "host": ["{{base_url}}"],
+              "path": ["api", "organization"]
+            },
+            "description": "Create an organization - this checks subscription limits"
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

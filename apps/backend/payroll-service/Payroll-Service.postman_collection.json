@@ -1,0 +1,214 @@
+{
+  "info": {
+    "_postman_id": "f5a47f6b-8e2d-4f2c-a8f4-9d5dd41e7dcf",
+    "name": "PayrollPro - Payroll Service",
+    "description": "Collection for testing the Payroll Service API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Payroll",
+      "item": [
+        {
+          "name": "Get All Payrolls",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/payroll",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payroll"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payroll by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/payroll/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payroll", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "payrollId"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Payroll",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"employee123\",\n  \"organizationId\": \"org123\",\n  \"payPeriodStart\": \"2023-01-01\",\n  \"payPeriodEnd\": \"2023-01-15\",\n  \"grossAmount\": 2500.00,\n  \"taxDeductions\": 500.00,\n  \"otherDeductions\": 200.00,\n  \"netAmount\": 1800.00,\n  \"status\": \"pending\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payroll",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payroll"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Payroll",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"processed\",\n  \"netAmount\": 1850.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payroll/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payroll", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "payrollId"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Payroll",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/payroll/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payroll", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "payrollId"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Core Service Tests",
+      "item": [
+        {
+          "name": "Test Core Service Connection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/test/connection",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "test", "connection"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test Get User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/test/user/:userId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "test", "user", ":userId"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "test-user-id"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test Get Customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/test/customer/:customerId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "test", "customer", ":customerId"],
+              "variable": [
+                {
+                  "key": "customerId",
+                  "value": "test-customer-id"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test Get Organization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/test/organization/:orgId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "test", "organization", ":orgId"],
+              "variable": [
+                {
+                  "key": "orgId",
+                  "value": "test-org-id"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5001",
+      "type": "string"
+    }
+  ]
+}

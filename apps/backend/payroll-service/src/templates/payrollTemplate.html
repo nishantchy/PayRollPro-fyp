@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payslip Template</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+        font-size: 12px;
+      }
+      .payslip {
+        max-width: 100%;
+        width: 850px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        padding: 20px 30px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 10px;
+      }
+      .logo {
+        max-width: 160px;
+        max-height: 100px;
+      }
+      .company-info {
+        text-align: right;
+      }
+      .title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+      .staff-info {
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+        padding: 15px;
+        background-color: #f9f9f9;
+      }
+      .info-row {
+        display: flex;
+        margin-bottom: 5px;
+        text-align: left;
+      }
+      .info-label {
+        font-weight: bold;
+        width: 150px;
+        text-align: left;
+      }
+      .payroll-details {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .earnings,
+      .deductions {
+        width: 48%;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+        text-align: left;
+      }
+      .amount {
+        text-align: right;
+      }
+      .summary {
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+        text-align: left;
+      }
+      .net-pay {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+      .notes {
+        margin-top: 20px;
+        font-style: italic;
+        color: #666;
+        border-top: 1px dashed #ccc;
+        padding-top: 10px;
+        text-align: left;
+      }
+      .signature-section {
+        margin-top: 40px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-direction: column;
+      }
+      .signature-image {
+        max-width: 150px;
+        margin-bottom: 5px;
+      }
+      .signatory-name {
+        font-weight: bold;
+      }
+      .footer {
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+        text-align: center;
+        font-size: 10px;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="payslip">
+      <div class="header">
+        <img
+          src="https://res.cloudinary.com/dpnhdq9eg/image/upload/v1745848583/logo-transparent_pylj5q.png"
+          alt="Company Logo"
+          class="logo"
+        />
+        <div class="company-info">
+          <h2>Payroll Pro</h2>
+          <p>Tokha 5, Basundhara, Kathmandu</p>
+          <p>Phone: (+977) 9868211546</p>
+          <p>Email: contact@payrollpro.com.np</p>
+          <p>Website: www.payrollpro.com.np</p>
+        </div>
+      </div>
+
+      <div class="title">PAYROLL STATEMENT - APRIL 2025</div>
+
+      <div class="staff-info">
+        <div class="info-row">
+          <div class="info-label">Staff Name:</div>
+          <div>John Doe</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Staff ID:</div>
+          <div>EMP-001</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Pay Period:</div>
+          <div>01/04/2025 to 30/04/2025</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Paid Days:</div>
+          <div>30</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Loss of Pay Days:</div>
+          <div>0</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Pay Date:</div>
+          <div>01/05/2025</div>
+        </div>
+      </div>
+
+      <div class="payroll-details">
+        <div class="earnings">
+          <h3>Earnings</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Basic Salary</td>
+                <td class="amount">₨50,000.00</td>
+              </tr>
+              <tr>
+                <td>Transportation Allowance</td>
+                <td class="amount">₨5,000.00</td>
+              </tr>
+              <tr>
+                <td>Bonus</td>
+                <td class="amount">₨10,000.00</td>
+              </tr>
+              <tr>
+                <td><strong>Total Earnings</strong></td>
+                <td class="amount"><strong>₨65,000.00</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="deductions">
+          <h3>Deductions</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Income Tax</td>
+                <td class="amount">₨5,000.00</td>
+              </tr>
+              <tr>
+                <td>Provident Fund</td>
+                <td class="amount">₨3,000.00</td>
+              </tr>
+              <tr>
+                <td><strong>Total Deductions</strong></td>
+                <td class="amount"><strong>₨8,000.00</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="info-row">
+          <div class="info-label">Gross Earnings:</div>
+          <div class="amount">₨65,000.00</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Total Deductions:</div>
+          <div class="amount">₨8,000.00</div>
+        </div>
+        <div class="net-pay">
+          <div class="info-row">
+            <div class="info-label">Net Pay:</div>
+            <div class="amount">₨57,000.00</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Amount in Words:</div>
+          <div>Fifty-seven thousand Nepalese Rupees only</div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <p>
+          <strong>Notes:</strong> This is a sample payslip template. Please
+          replace with actual notes.
+        </p>
+      </div>
+
+      <div class="signature-section">
+        <img
+          src="https://res.cloudinary.com/dpnhdq9eg/image/upload/v1740297337/signature_ihdroh.png"
+          alt="Signature"
+          class="signature-image"
+        />
+        <div class="signatory-name">Aayush Raj Joshi</div>
+        <div>Authorized Signatory</div>
+      </div>
+
+      <div class="footer">
+        <p>
+          This is a computer-generated document and does not require a
+          signature.
+        </p>
+        <p>© 2025 Payroll Pro - All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

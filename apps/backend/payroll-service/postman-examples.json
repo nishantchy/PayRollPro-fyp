@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "PayrollPro - Payroll Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Payroll",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer YOUR_JWT_TOKEN"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"60d0fe4f5311236168a109ca\",\n  \"organization_id\": \"60d0fe4f5311236168a109cb\",\n  \"customer_id\": \"60d0fe4f5311236168a109cc\",\n  \"month_year\": \"06-2023\",\n  \"pay_period\": {\n    \"start_date\": \"2023-06-01T00:00:00.000Z\",\n    \"end_date\": \"2023-06-30T23:59:59.999Z\"\n  },\n  \"paid_days\": 30,\n  \"loss_of_pay_days\": 0,\n  \"pay_date\": \"2023-07-01T00:00:00.000Z\",\n  \"earnings\": [\n    {\n      \"earning_type\": \"Basic\",\n      \"amount\": 5000\n    },\n    {\n      \"earning_type\": \"HRA\",\n      \"amount\": 2000\n    },\n    {\n      \"earning_type\": \"Transport Allowance\",\n      \"amount\": 1000\n    }\n  ],\n  \"deductions\": [\n    {\n      \"deduction_type\": \"Income Tax\",\n      \"amount\": 500\n    },\n    {\n      \"deduction_type\": \"Provident Fund\",\n      \"amount\": 600\n    }\n  ],\n  \"gross_earnings\": 8000,\n  \"total_deductions\": 1100,\n  \"net_payable\": 6900,\n  \"amount_in_words\": \"Six Thousand Nine Hundred Only\",\n  \"notes\": \"Monthly salary for June 2023\",\n  \"generated_by\": \"60d0fe4f5311236168a109cd\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5001/api/payroll",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["api", "payroll"]
+        },
+        "description": "Create a new payroll record"
+      }
+    },
+    {
+      "name": "Get All Payrolls",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer YOUR_JWT_TOKEN"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5001/api/payroll?organization_id=60d0fe4f5311236168a109cb",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["api", "payroll"],
+          "query": [
+            {
+              "key": "organization_id",
+              "value": "60d0fe4f5311236168a109cb"
+            }
+          ]
+        },
+        "description": "Get all payrolls with optional filters"
+      }
+    },
+    {
+      "name": "Get Payroll by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer YOUR_JWT_TOKEN"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5001/api/payroll/60d0fe4f5311236168a109cf",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["api", "payroll", "60d0fe4f5311236168a109cf"]
+        },
+        "description": "Get a single payroll by ID"
+      }
+    }
+  ]
+}
