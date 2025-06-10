@@ -5,7 +5,7 @@ import logger from "../utils/logger";
 import { getCustomerById } from "../services/core.service";
 import coreService from "../services/core.service";
 import jwt from "jsonwebtoken";
-import { sendPayrollEmail } from "../utils/emailService";
+import { sendPayrollEmail } from "../services/email.service";
 import { generatePayrollPDF } from "../utils/pdfGenerator";
 import { formatDate } from "../utils/dateUtils";
 

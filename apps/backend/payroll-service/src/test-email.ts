@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
-import { sendPayrollEmail } from "./utils/emailService";
+import { sendPayrollEmail } from "./services/email.service";
 import logger from "./utils/logger";
 
 // Load environment variables

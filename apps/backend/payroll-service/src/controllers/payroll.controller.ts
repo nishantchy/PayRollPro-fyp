@@ -2,11 +2,12 @@ import { Request, Response } from "express";
 import PayrollModel from "../models/payroll.model";
 import { getUserById, getOrganizationById } from "../services/core.service";
 import { generatePayrollPDF } from "../utils/pdfGenerator";
-import { sendPayrollEmail } from "../utils/emailService";
+import { sendPayrollEmail } from "../services/email.service";
 import logger from "../utils/logger";
 import axios from "axios";
 import numberToWords from "../utils/numberToWords";
 import { formatDate } from "../utils/dateUtils";
+import { generateSecureKey, encryptData } from "../services/encryption.service";
 
 /**
  * Create a new payroll
@@ -516,9 +517,6 @@ export const downloadPayrollPDF = async (req: Request, res: Response) => {
       });
     }
 
-    // Get the API key from request header
-    const apiKey = req.headers["x-api-key"] as string;
-
     // Fetch employee data
     const employeeData = await fetchUserData(String(payroll.user_id));
 
@@ -568,19 +566,53 @@ export const downloadPayrollPDF = async (req: Request, res: Response) => {
       },
     });
 
+    // Generate encryption key using first 4 letters of name and organization name
+    const namePrefix = `${employeeData.first_name} ${employeeData.last_name}`
+      .substring(0, 4)
+      .toLowerCase();
+    const encryptionKey = generateSecureKey(namePrefix, organizationData.name);
+
+    // Log encryption details for debugging
+    logger.info(
+      `Encrypting PDF for ${employeeData.first_name} ${employeeData.last_name} with key prefix: ${namePrefix}`
+    );
+
+    // Encrypt the PDF buffer
+    const encryptedPdfBuffer = encryptData(pdfBuffer, encryptionKey);
+
+    // Verify encryption was successful
+    if (!encryptedPdfBuffer || encryptedPdfBuffer.length === 0) {
+      throw new Error("PDF encryption failed - empty buffer returned");
+    }
+
+    logger.info(
+      `PDF encrypted successfully. Original size: ${pdfBuffer.length}, Encrypted size: ${encryptedPdfBuffer.length}`
+    );
+
     // Set response headers for file download
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
-      `attachment; filename=payroll_${id}.pdf`
+      `attachment; filename=encrypted_payroll_${id}.pdf`
     );
 
-    // Send the PDF buffer
-    return res.send(pdfBuffer);
+    // Add decryption instructions in response headers
+    res.setHeader(
+      "X-Decryption-Instructions",
+      JSON.stringify({
+        key: `${namePrefix}${organizationData.name}`,
+        algorithm: "AES-256-CBC",
+        instructions:
+          "Use the key to decrypt the PDF using any AES-256-CBC decryption tool",
+      })
+    );
+
+    // Send the encrypted PDF buffer
+    return res.send(encryptedPdfBuffer);
   } catch (error) {
-    logger.error("Error downloading payroll PDF:", error);
+    logger.error("Error downloading encrypted payroll PDF:", error);
     return res.status(500).json({
-      message: "Failed to download payroll PDF",
+      message: "Failed to download encrypted payroll PDF",
       error: error instanceof Error ? error.message : String(error),
     });
   }

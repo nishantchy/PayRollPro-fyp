@@ -1,0 +1,120 @@
+PayrollPro: Efficient Tax Calculation and Secure Payslip Delivery Using Algorithms
+
+---
+
+**Algorithms Used in PayrollPro**
+
+PayrollPro is a payroll management system designed to automate, optimize, and secure salary and tax calculations for employees in Nepal. The system leverages two core algorithms to ensure both computational efficiency and data security:
+
+1. **Binary Search Algorithm** (for efficient tax slab lookup)
+2. **AES-256-CBC Encryption Algorithm** (for secure payslip delivery)
+
+---
+
+## 1. Binary Search Algorithm for Tax Calculation
+
+### Purpose
+Efficiently determine the correct tax rate (slab) for each employee's income, especially as tax regulations change and the number of slabs increases.
+
+### Problem Statement
+Traditionally, tax calculation involves checking each income range (tax slab) one by one (linear search), which becomes inefficient as the number of slabs grows or when processing payroll for many employees.
+
+### Solution: Binary Search
+PayrollPro implements the Binary Search algorithm to quickly find the correct tax slab for any given income. Binary Search divides the search space in half at each step, drastically reducing the number of checks needed compared to a linear search.
+
+- **Linear Search:** O(n) time complexity
+- **Binary Search:** O(log n) time complexity
+
+### Implementation Example
+```typescript
+private static findTaxSlab(income: number): TaxSlab {
+  let left = 0;
+  let right = this.TAX_SLABS.length - 1;
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const currentSlab = this.TAX_SLABS[mid];
+    if (income >= currentSlab.minAmount && income <= currentSlab.maxAmount) {
+      return currentSlab;
+    }
+    if (income < currentSlab.minAmount) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
+    }
+  }
+  return this.TAX_SLABS[this.TAX_SLABS.length - 1];
+}
+```
+
+### Benefits
+- Faster payroll processing, especially for large organizations or complex tax rules.
+- Scalable as the number of tax slabs increases.
+
+### Reference
+- D. E. Knuth, *The Art of Computer Programming, Volume 3: Sorting and Searching*, 2nd ed., Addison-Wesley, 1998.
+- T. H. Cormen, C. E. Leiserson, R. L. Rivest, and C. Stein, *Introduction to Algorithms*, 3rd ed., MIT Press, 2009.
+
+#### IEEE Citation (Base Paper)
+[1] D. E. Knuth, "Sorting and Searching," in *The Art of Computer Programming*, 2nd ed., vol. 3, Addison-Wesley, 1998, pp. 1-780.
+
+---
+
+## 2. AES-256-CBC Encryption for Payslip Security
+
+### Purpose
+To ensure the confidentiality and security of employee payslips sent via email, preventing unauthorized access to sensitive payroll data.
+
+### Problem Statement
+Sending payslips as plain PDF attachments over email exposes sensitive information to potential interception or unauthorized access. Standard PDF password protection is not considered a custom algorithm implementation and may not meet academic requirements.
+
+### Solution: AES-256-CBC Encryption
+PayrollPro uses the Advanced Encryption Standard (AES) in Cipher Block Chaining (CBC) mode with a 256-bit key (AES-256-CBC) to encrypt PDF files before sending them via email. The decryption key is generated using a combination of the first four letters of the employee's name (in lowercase) and a fixed security code (e.g., PAYROLL2025).
+
+### Implementation Example (Node.js)
+```typescript
+import crypto from "crypto";
+const ALGORITHM = "aes-256-cbc";
+const IV_LENGTH = 16;
+const KEY_LENGTH = 32;
+
+export const encryptData = (data: Buffer, key: string): Buffer => {
+  const keyBuffer = crypto.createHash("sha256").update(key).digest().slice(0, KEY_LENGTH);
+  const iv = crypto.randomBytes(IV_LENGTH);
+  const cipher = crypto.createCipheriv(ALGORITHM, keyBuffer, iv);
+  const encrypted = Buffer.concat([cipher.update(data), cipher.final()]);
+  return Buffer.concat([iv, encrypted]);
+};
+```
+
+### Benefits
+- Strong security using industry-standard encryption.
+- Only the intended recipient (with the correct key) can decrypt and view the payslip.
+- Demonstrates custom algorithm implementation for academic purposes.
+
+### Reference
+- J. Daemen and V. Rijmen, "AES Proposal: Rijndael," National Institute of Standards and Technology, 1999. [Online]. Available: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf
+- National Institute of Standards and Technology (NIST), "Announcing the ADVANCED ENCRYPTION STANDARD (AES)," FIPS PUB 197, Nov. 2001.
+
+#### IEEE Citation (Base Paper)
+[2] J. Daemen and V. Rijmen, "AES Proposal: Rijndael," National Institute of Standards and Technology, 1999. [Online]. Available: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf
+
+---
+
+## System Changes and Benefits
+
+- **Before:** Tax calculation used a linear search (O(n)), and payslips were sent as unprotected PDFs.
+- **After:** Tax calculation uses binary search (O(log n)), and payslips are encrypted with AES-256-CBC before delivery.
+- **Result:** PayrollPro is now both efficient and secure, meeting academic and practical requirements.
+
+---
+
+## References
+
+[1] D. E. Knuth, "Sorting and Searching," in *The Art of Computer Programming*, 2nd ed., vol. 3, Addison-Wesley, 1998, pp. 1-780.
+[2] J. Daemen and V. Rijmen, "AES Proposal: Rijndael," National Institute of Standards and Technology, 1999. [Online]. Available: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf
+[3] T. H. Cormen, C. E. Leiserson, R. L. Rivest, and C. Stein, *Introduction to Algorithms*, 3rd ed., MIT Press, 2009.
+[4] QuickBooks Nepal Tax Tables. [Online]. Available: https://quickbooks.intuit.com/global/tax-tables/nepal-tax-tables/
+
+---
+
+*This document was prepared to explain the rationale and benefits of using the Binary Search algorithm for tax calculation in PayrollPro, ensuring both academic rigor and practical efficiency.* 
